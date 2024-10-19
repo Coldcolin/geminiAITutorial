@@ -53,8 +53,19 @@ const storage = multer.diskStorage({
         const text = result.response.text();
         res.send(text)
     }catch(err){
-        console.error(err)
+        console.error(err);
+        res.status(500).send(err.message)
     }
+  })
+
+  app.post("/gemini/text", async(req, res)=>{
+      try{
+          const result = await model.generateContent(req.body.message);
+          res.status(200).send(result.response.text());
+      }catch(err){
+        console.error(err)
+        res.status(500).send(err.message)
+      }
   })
 
 
